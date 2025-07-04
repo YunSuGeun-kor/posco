@@ -446,12 +446,12 @@ def main():
     st.title("📍 암롤박스 위치 조회 시스템")
     st.markdown("---")
     
-    # File upload or use existing file
-    excel_file = r"C:/Users/User/Desktop/제로톤/암롤박스위치정보.xlsx"
+    # File upload or use existing file # GitHub에 업로드된 파일을 상대 경로로 불러오기
+    excel_file = "암롤박스위치정보.xlsx"
     
     # Check if file exists
     if not os.path.exists(excel_file):
-        st.error(f"엑셀 파일 '{excel_file}'을 찾을 수 없습니다.")
+        st.error(f"엑셀 파일 '{excel_file}'을 찾을 수 없습니다. GitHub 저장소에 있는지 확인하세요.")
         st.info("엑셀 파일을 업로드해주세요.")
         
         uploaded_file = st.file_uploader(
