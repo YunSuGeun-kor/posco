@@ -448,33 +448,41 @@ def main():
     
     # File upload or use existing file # GitHub에 업로드된 파일을 상대 경로로 불러오기
     excel_file = "암롤박스위치정보.xlsx"
+    github_raw_url = "https://raw.githubusercontent.com/YunSuGeun-kor/posco/main/암롤박스위치정보.xlsx"
     
     # Check if file exists
     if not os.path.exists(excel_file):
-        st.error(f"엑셀 파일 '{excel_file}'을 찾을 수 없습니다. GitHub 저장소에 있는지 확인하세요.")
-        st.info("엑셀 파일을 업로드해주세요.")
+        #github_raw_url에서 시도
+        try:
+            with st.spinner("Github에서 엑셀 파일을 불러오는 중입니다..."):
+                df = load_excel_data(github_raw_url,"좌표정보")
+            if df is None:
+                raise Exception("GitHub에서 파일을 불러오지 못했습니다.")
+        except Exception as e:
+            st.error(f"엑셀 파일 '{excel_file}'을 찾을 수 없고, GitHub 저장소에서도 불러오지 못했습니다. 파일을 업로드해주세요.")
+            st.info("엑셀 파일을 업로드해주세요.")
+            uploaded_file = st.file_uploader(
+                "엑셀 파일 선택",
+                type=['xlsx', 'xls'],
+                help="암롤박스 위치 정보가 포함된 엑셀 파일을 업로드하세요."
+            )
         
-        uploaded_file = st.file_uploader(
-            "엑셀 파일 선택",
-            type=['xlsx', 'xls'],
-            help="암롤박스 위치 정보가 포함된 엑셀 파일을 업로드하세요."
-        )
-        
-        if uploaded_file is not None:
-            # Save uploaded file
-            with open(excel_file, "wb") as f:
-                f.write(uploaded_file.getbuffer())
-            st.success("파일이 업로드되었습니다!")
-            st.rerun()
-        else:
+            if uploaded_file is not None:
+                # Save uploaded file
+                with open(excel_file, "wb") as f:
+                    f.write(uploaded_file.getbuffer())
+                st.success("파일이 업로드되었습니다!")
+                st.rerun()
+            else:
+                st.stop()
+    else:
+        #파일이 있으면 기존대로 진행
+        # Load data from the specific sheet
+        with st.spinner("데이터를 로딩중입니다..."):
+            df = load_excel_data(excel_file, "좌표정보")
+    
+        if df is None:
             st.stop()
-    
-    # Load data from the specific sheet
-    with st.spinner("데이터를 로딩중입니다..."):
-        df = load_excel_data(excel_file, "좌표정보")
-    
-    if df is None:
-        st.stop()
     
     # Display basic information
     st.success(f"✅ 데이터 로딩 완료: {len(df)}개의 레코드")
