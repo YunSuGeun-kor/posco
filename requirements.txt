@@ -10,3 +10,4 @@ streamlit-folium
 python-dotenv
 polyline
 openpyxl
+requests
