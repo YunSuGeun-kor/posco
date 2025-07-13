@@ -641,7 +641,7 @@ def main():
             map_data = st_folium(
                 folium_map,
                 width=None,    # 너비 자동 조절 (반응형)
-                height=600,    # 높이 축소 (모바일에서 보기 좋게)
+                height=1500,    # 높이 축소 (모바일에서 보기 좋게)
                 returned_objects=["last_object_clicked"]
             )
             
