@@ -635,6 +635,22 @@ def main():
     # Create and display map
     st.subheader("🗺️ 위치 지도")
     
+    # 👇 스타일 조정 코드 삽입
+    st.markdown(
+        """
+        <style>
+        .folium-map {
+            touch-action: auto !important;
+            overflow: auto !important;
+        }
+        iframe {
+            pointer-events: auto !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     try:
         with st.spinner("지도를 생성중입니다..."):
             # Display map
