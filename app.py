@@ -639,7 +639,7 @@ def main():
         """
         <style>
         .custom-map-wrapper {
-            padding-right: 120px;  /* ✅ 오른쪽 스크롤 공간 확보 */
+            padding-right: 200px;  /* ✅ 오른쪽 스크롤 공간 확보 */
         }
     
         iframe {
@@ -649,10 +649,10 @@ def main():
     
         @media (max-width: 768px) {
             .custom-map-wrapper {
-                padding-right: 80px;  /* ✅ 모바일에서 더 큰 여백 확보 */
+                padding-right: 150px;  /* ✅ 모바일에서 더 큰 여백 확보 */
             }
             iframe {
-                max-width: 90vw !important;
+                max-width: 70vw !important;
             }
         }
         </style>
