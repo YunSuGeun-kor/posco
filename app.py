@@ -635,16 +635,24 @@ def main():
     # Create and display map
     st.subheader("🗺️ 위치 지도")
     
-    # 👇 스타일 조정 코드 삽입
     st.markdown(
         """
         <style>
         .folium-map {
             touch-action: auto !important;
             overflow: auto !important;
+            margin-right: 12px !important;  /* ⬅️ 오른쪽에 스크롤 여백 추가 */
         }
         iframe {
             pointer-events: auto !important;
+            border-radius: 8px;  /* 보기 좋게 모서리 둥글게 */
+        }
+    
+        /* 모바일 세로 화면 대응: 지도 너비 살짝 줄이기 */
+        @media (max-width: 768px) {
+            .folium-map {
+                max-width: 97vw !important;  /* 전체폭에서 살짝 줄여 여백 확보 */
+            }
         }
         </style>
         """,
