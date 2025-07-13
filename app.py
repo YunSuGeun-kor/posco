@@ -641,7 +641,7 @@ def main():
         .folium-map {
             touch-action: auto !important;
             overflow: auto !important;
-            margin-right: 12px !important;  /* ⬅️ 오른쪽에 스크롤 여백 추가 */
+            margin-right: 30px !important;  /* ⬅️ 오른쪽에 스크롤 여백 추가 */
         }
         iframe {
             pointer-events: auto !important;
@@ -651,7 +651,7 @@ def main():
         /* 모바일 세로 화면 대응: 지도 너비 살짝 줄이기 */
         @media (max-width: 768px) {
             .folium-map {
-                max-width: 97vw !important;  /* 전체폭에서 살짝 줄여 여백 확보 */
+                max-width: 90vw !important;  /* 전체폭에서 살짝 줄여 여백 확보 */
             }
         }
         </style>
