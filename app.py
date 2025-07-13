@@ -638,23 +638,26 @@ def main():
     st.markdown(
         """
         <style>
-        .folium-map {
-            touch-action: auto !important;
-            overflow: auto !important;
-            margin-right: 60px !important;  /* ⬅️ 오른쪽에 스크롤 여백 추가 */
-        }
-        iframe {
-            pointer-events: auto !important;
-            border-radius: 8px;  /* 보기 좋게 모서리 둥글게 */
+        .custom-map-wrapper {
+            padding-right: 120px;  /* ✅ 오른쪽 스크롤 공간 확보 */
         }
     
-        /* 모바일 세로 화면 대응: 지도 너비 살짝 줄이기 */
+        iframe {
+            border-radius: 8px;
+            pointer-events: auto !important;
+        }
+    
         @media (max-width: 768px) {
-            .folium-map {
-                max-width: 70vw !important;  /* 전체폭에서 살짝 줄여 여백 확보 */
+            .custom-map-wrapper {
+                padding-right: 80px;  /* ✅ 모바일에서 더 큰 여백 확보 */
+            }
+            iframe {
+                max-width: 90vw !important;
             }
         }
         </style>
+    
+        <div class="custom-map-wrapper">
         """,
         unsafe_allow_html=True
     )
@@ -673,7 +676,8 @@ def main():
             if map_data["last_object_clicked"]:
                 clicked_info = map_data["last_object_clicked"]
                 st.success(f"선택된 위치: 위도 {clicked_info['lat']:.6f}, 경도 {clicked_info['lng']:.6f}")
-        
+            # ✅ 지도 wrapper 닫기: try 내부 마지막에 위치
+            st.markdown("</div>", unsafe_allow_html=True)
     except Exception as e:
         st.error(f"지도 생성 중 오류가 발생했습니다: {str(e)}")
     
