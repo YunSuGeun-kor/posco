@@ -447,8 +447,8 @@ def main():
     st.title("📍 암롤박스 위치 조회 시스템")
     st.markdown("---")
 
-    excel_file = "암롤박스위치정보.xlsx"
-    github_raw_url = "https://raw.githubusercontent.com/YunSuGeun-kor/posco/main/암롤박스위치정보.xlsx"
+    excel_file = "box_locations.xlsx"
+    github_raw_url = "https://raw.githubusercontent.com/YunSuGeun-kor/posco/main/box_locations.xlsx"
 
     # 로컬 파일 확인
     if not os.path.exists(excel_file):
