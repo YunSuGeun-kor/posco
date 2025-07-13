@@ -9,6 +9,7 @@ import math
 import io
 from typing import List, Optional
 import numpy as np
+import requests 
 
 # Set page configuration
 st.set_page_config(
@@ -442,22 +443,23 @@ def create_map(df: pd.DataFrame, box_col: str, lat_col: str, lng_col: str,
 
 def main():
     """Main application function"""
-    
+
     st.title("📍 암롤박스 위치 조회 시스템")
     st.markdown("---")
-    
-    # File upload or use existing file # GitHub에 업로드된 파일을 상대 경로로 불러오기
+
     excel_file = "암롤박스위치정보.xlsx"
     github_raw_url = "https://raw.githubusercontent.com/YunSuGeun-kor/posco/main/암롤박스위치정보.xlsx"
-    
-    # Check if file exists
+
+    # 로컬 파일 확인
     if not os.path.exists(excel_file):
-        #github_raw_url에서 시도
         try:
             with st.spinner("Github에서 엑셀 파일을 불러오는 중입니다..."):
-                df = load_excel_data(github_raw_url,"좌표정보")
-            if df is None:
-                raise Exception("GitHub에서 파일을 불러오지 못했습니다.")
+                response = requests.get(github_raw_url)
+                if response.status_code == 200:
+                    excel_bytes = io.BytesIO(response.content)
+                    df = load_excel_data(excel_bytes, "좌표정보")
+                else:
+                    raise Exception("GitHub에서 파일을 불러오지 못했습니다.")
         except Exception as e:
             st.error(f"엑셀 파일 '{excel_file}'을 찾을 수 없고, GitHub 저장소에서도 불러오지 못했습니다. 파일을 업로드해주세요.")
             st.info("엑셀 파일을 업로드해주세요.")
@@ -466,9 +468,8 @@ def main():
                 type=['xlsx', 'xls'],
                 help="암롤박스 위치 정보가 포함된 엑셀 파일을 업로드하세요."
             )
-        
+
             if uploaded_file is not None:
-                # Save uploaded file
                 with open(excel_file, "wb") as f:
                     f.write(uploaded_file.getbuffer())
                 st.success("파일이 업로드되었습니다!")
@@ -476,11 +477,9 @@ def main():
             else:
                 st.stop()
     else:
-        #파일이 있으면 기존대로 진행
-        # Load data from the specific sheet
         with st.spinner("데이터를 로딩중입니다..."):
             df = load_excel_data(excel_file, "좌표정보")
-    
+
         if df is None:
             st.stop()
     
